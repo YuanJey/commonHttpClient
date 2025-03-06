@@ -10,6 +10,7 @@ func main() {
 	req := make(map[string]interface{})
 	req["page"] = "0"
 	req["size"] = "0"
+	req["name"] = "knight"
 	pageConfig := params.PageConfig{
 		IsPage:    true,
 		Page:      1,
@@ -19,7 +20,7 @@ func main() {
 	}
 	requestConfig := params.RequestConfig{
 		Method:      "GET",
-		BodyType:    4,
+		BodyType:    1,
 		Url:         "https://www.baidu.com",
 		ContentType: "application/json",
 		Headers:     nil,
@@ -28,7 +29,6 @@ func main() {
 	}
 	httpClient := client.HttpClient{}
 	for i := 0; i < 10; i++ {
-		requestConfig.Params()
 		httpClient.Request(&requestConfig)
 		fmt.Println(requestConfig.Url)
 	}

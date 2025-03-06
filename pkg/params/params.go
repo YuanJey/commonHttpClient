@@ -3,6 +3,7 @@ package params
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io"
 	"mime/multipart"
 	"net/url"
@@ -12,21 +13,21 @@ import (
 )
 
 type RequestConfig struct {
-	Method      string
-	BodyType    int
-	Url         string
-	ContentType string
-	Headers     map[string]string
-	Req         map[string]interface{}
-	PageConf    PageConfig
+	Method      string                 `yaml:"method" json:"method,omitempty"`
+	BodyType    int                    `yaml:"bodyType" json:"bodyType,omitempty"`
+	Url         string                 `yaml:"url" json:"url,omitempty"`
+	ContentType string                 `yaml:"contentType" json:"contentType,omitempty"`
+	Headers     map[string]string      `yaml:"headers" json:"headers,omitempty"`
+	Req         map[string]interface{} `yaml:"req" json:"req,omitempty"`
+	PageConf    PageConfig             `yaml:"pageConf" json:"pageConf"`
 }
 type PageConfig struct {
-	IsPage bool
+	IsPage bool `json:"isPage,omitempty" yaml:"isPage"`
 	//当前页
-	Page      int
-	PageField string
-	PageSize  int
-	SizeField string
+	Page      int    `json:"page,omitempty" yaml:"page"`
+	PageField string `json:"pageField,omitempty" yaml:"pageField"`
+	PageSize  int    `json:"pageSize,omitempty" yaml:"pageSize"`
+	SizeField string `json:"sizeField,omitempty" yaml:"sizeField"`
 }
 
 func (p *PageConfig) AddPage() {
@@ -101,6 +102,7 @@ func (r *RequestConfig) Params() io.Reader {
 				if err != nil {
 					return nil
 				}
+				fmt.Println(string(jsonStr))
 				return strings.NewReader(string(jsonStr))
 			} else {
 				jsonStr, err := json.Marshal(r.Req)
